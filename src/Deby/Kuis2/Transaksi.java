@@ -59,7 +59,6 @@ public class Transaksi extends javax.swing.JFrame {
 
         itemsLabel.setText("Items");
 
-        jTable1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
