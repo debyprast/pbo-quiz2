@@ -37,6 +37,17 @@ private float total;
     public void setTotal(float total) {
         this.total = total;
     }
-    
+  
+    public String Pembayaran(){
+        setTotal();
+        String byr = "";
+        byr += "Code\t\t : "+ this.code +"\n";
+        byr += "Daftar Belanja : \n";
+        for (Item item : this.items){
+            byr += "\t" + item.getNama() + "(x" + item.getJumlah() + ") : " + item.getTotal() + "\n";
+        }
+        byr += "Total Belanja\t\t : " + this.total;
+        return byr;
+    }
     
 }
