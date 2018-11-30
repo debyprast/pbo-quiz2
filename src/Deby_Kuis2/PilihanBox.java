@@ -12,16 +12,16 @@ import java.util.ArrayList;
  * @author sin
  */
 public class PilihanBox {
-    private final HashMap<String , Float> item = new HashMap<>();
+    private final HashMap<String , Float> item = new HashMap<>();//memetakan nilai dengan key unik
 
-    public PilihanBox(){
+    public PilihanBox(){//menu pilihan yang ada
         this.item.put("Gula", new Float(30000));
         this.item.put("Kopi", new Float(30000));
         this.item.put("Susu", new Float(30000));
         this.item.put("Teh", new Float(30000));
     }
     
-    public ArrayList<String> getSemuaNama(){
+    public ArrayList<String> getSemuaNama(){//list menu yang ada
         ArrayList<String> str = new ArrayList<>();
         for (String item:this.item.keySet()){
                 str.add(item);
@@ -29,7 +29,7 @@ public class PilihanBox {
         return str;
     }    
     
-    public ArrayList<Float> getSemuaHarga(){
+    public ArrayList<Float> getSemuaHarga(){//list total harga
         ArrayList<Float> flt = new ArrayList<>();
         for (float item:this.item.values()){
                 flt.add(item);
@@ -37,7 +37,7 @@ public class PilihanBox {
         return flt;
     }     
     
-    public void addItem(String nama, float harga){
+    public void addItem(String nama, float harga){//list tambah item
         this.item.put(nama, harga);
     }
 }

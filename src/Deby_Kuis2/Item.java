@@ -10,9 +10,9 @@ package Deby_Kuis2;
  * @author sin
  */
 public class Item {
-    private String nama;
-    private float harga;
-    private int jumlah;
+    private String nama;//menyimpan nama barang
+    private float harga;//menyimpan harga
+    private int jumlah;//menyimpan jumlah
 
     public Item(String nama, int jumlah) {
         this.nama = nama;
@@ -24,18 +24,10 @@ public class Item {
         this.nama = nama;
         this.harga = harga;
         this.jumlah = jumlah;
-        switch (nama){
-            case "Gula" : this.harga = 30000;
-            break;
-            case "Susu" : this.harga = 20000;
-            break;
-            case "Kopi" : this.harga = 10000;
-            break;
-            case "Teh" : this.harga = 5000;
-            break;
-        }
     }
 
+    //get=mengambil
+    //set=mengatur
     public String getNama() {
         return nama;
     }
@@ -60,11 +52,11 @@ public class Item {
         this.jumlah = jumlah;
     }
     
-    public float getTotal(){
+    public float getTotal(){//hasil dari harga*jumlah
         return this.harga * this.jumlah;
     }
 
-    public String toString(){
+    public String toString(){//menconvert output menjadi string
         return this.nama;
     }
     

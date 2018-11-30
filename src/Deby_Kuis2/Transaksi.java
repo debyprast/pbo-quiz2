@@ -5,37 +5,40 @@
  */
 package Deby_Kuis2;
 
-import java.util.ArrayList;
+import java.util.*;
 /**
  *
  * @author sin
  */
 public class Transaksi {
-  
+
+private Float total;
 private final String code;
-private final ArrayList<Item> items = new ArrayList<>();
-private final ArrayList<Item> item;
-private float total;
+private  ArrayList<Item> items = new ArrayList<>();
 
     public Transaksi(String code, ArrayList<Item> items) {
         this.code = code;
-        this.item = items;
+        this.items = items;
     }
     
-    public void setTotal(){
-        float total = 0;
-        for (Item item : this.items){
-            total += item.getTotal();
-        }
-        this.total = total;
+    public ArrayList<Item> getItems(){
+        return items;
     }
 
+    public void setItems(ArrayList<Item> items){
+        this.items = items;
+    }
+    
     public float getTotal() {
         return total;
     }
 
-    public void setTotal(float total) {
-        this.total = total;
+    public void setTotal() {
+        float totalAkhir=0;
+        for (Item item:this.items){
+            totalAkhir+=item.getTotal();
+        }
+        this.total=totalAkhir;
     }
   
     public String Pembayaran(){
@@ -49,5 +52,4 @@ private float total;
         byr += "Total Belanja\t\t : " + this.total;
         return byr;
     }
-    
 }

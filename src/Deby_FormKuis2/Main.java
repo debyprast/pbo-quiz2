@@ -20,42 +20,42 @@ import javax.swing.table.DefaultTableModel;
  * @author sin
  */
 public class Main extends javax.swing.JFrame {
-    private int id=0;
-    private String code;
-    private DefaultTableModel tbModel;
-    private ArrayList<Item> items = new ArrayList<>();
-    private final DefaultComboBoxModel<Object> pbModel;
+    private int id=0;//id kode transaksi
+    private String code;//variabel kode transaksi
+    private DefaultTableModel tbModel;//jtable 
+    private ArrayList<Item> items = new ArrayList<>();//menampilkan transaksi
+    private final DefaultComboBoxModel pbModel;//combobox
+
     public Main() {
-        PilihanBox pb = new PilihanBox();
+        PilihanBox pb = new PilihanBox();//mengisi combobox
         this.pbModel = new DefaultComboBoxModel<>(pb.getSemuaNama().toArray());
-        TableTransaksi tbTransaksi = new TableTransaksi();
+        TableTransaksi tbTransaksi = new TableTransaksi();//mengisi pada tabel transaksi
         this.tbModel = new DefaultTableModel(tbTransaksi.getKolomNama(),0);
         initComponents();
     }
     
     
-    private void incId(){
+    private void incId(){//penambahan id
         this.id += 1;
     }
     
-    private void decId(){
+    private void decId(){//pengurangan id
         this.id -= 1;
     }
 
-    private String setCode(){
+    private String setCode(){//mengambil tanggal dan menampilkan
         this.incId();
         String set = new SimpleDateFormat("yyMMdd").format(new Date());
         this.code = String.format(set+"%02d",this.id);
         return code;
     }
     
-    private Object[] addItem(String nama, int jumlah){
+    private Object[] addItem(String nama, int jumlah){//manambah item 
         float harga = 0;
         PilihanBox item = new PilihanBox();
-        for (int i=0 ; i<item.getSemuaHarga().size(); i++){
+        for (int i=0 ; i<item.getSemuaNama().size(); i++){
             if (nama.equalsIgnoreCase(item.getSemuaNama().get(i))){
                 harga = item.getSemuaHarga().get(i);
-            } else {
             }
         }
         Object[] obj={
@@ -65,7 +65,7 @@ public class Main extends javax.swing.JFrame {
         
     }
     
-    private  void updateJumlah (String nama , int add) {
+    private  void updateJumlah (String nama , int add){//update jumlah yang dibeli
         ArrayList<String> item = new ArrayList<> () ;
         for (int i = 0; i < tbModel.getRowCount(); i++) {
             item.add (tbModel.getValueAt (i , 0).toString()) ;
@@ -78,7 +78,7 @@ public class Main extends javax.swing.JFrame {
         }
     }
     
-    private boolean isDuplicate (String nama){
+    private boolean isDuplicate (String nama){//cek apakah ada duplicate/sama
         boolean result = false ;
         ArrayList <String> item = new ArrayList<>() ;
         for (int i = 0; i < tbModel.getRowCount(); i++) {
@@ -94,11 +94,11 @@ public class Main extends javax.swing.JFrame {
     }
 
     
-    private boolean isEmpty() {
+    private boolean isEmpty(){//cek apakah barang kosong
         return this.tampil.getModel().getRowCount() <= 0 ;
     }
     
-    private void belanja() {
+    private void belanja() {//mematikan tombol save dan remove ketika tabel belum diisi
         if (isEmpty()) {
             this.saveToggleButton.setEnabled(false) ;
             this.removeButton.setEnabled(false) ;
@@ -108,7 +108,7 @@ public class Main extends javax.swing.JFrame {
         }
     }
         
-     private void transaksiBaru () {
+     private void transaksiBaru(){//mengeksekusi transaksi baru 
         this.jumlahTextField.setText(" ") ;
         this.codeTextField.setText(" ") ;
         this.newButton.setEnabled(true) ;
@@ -187,25 +187,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        tampil.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Nama", "Harga", "Jumlah"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        tampil.setModel(tbModel);
         tampilPane.setViewportView(tampil);
 
         saveToggleButton.setText("Save");
@@ -283,26 +265,19 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToggleButtonActionPerformed
-        try {
-            // loop setiap tabel
-            for (int i = 0; i < tbModel.getRowCount(); i++) {
-                // menyimpan nama dan jumlah menjadi variable
-                String nama = tbModel.getValueAt (i , 0).toString () ;
-                float harga = new Float (tbModel.getValueAt (i , 1).toString()) ;
-                int jumlah = new Integer (tbModel.getValueAt (i , 2).toString()) ;
-                this.items.add (new Item(nama, jumlah , (int) harga)) ;   
+        try {//looping setiap tabel
+            for (int i = 0; i < tbModel.getRowCount(); i++){// menyimpan nama dan jumlah menjadi variable
+                String nama = tbModel.getValueAt (i , 0).toString ();
+                float harga = new Float (tbModel.getValueAt (i, 1).toString());
+                int jumlah = new Integer (tbModel.getValueAt (i, 2).toString());
+                this.items.add (new Item(nama, jumlah , (int) harga));   
             }
-            // instansiasi kelas Transaksi dengan kode dan committed belanja
-            Transaksi tsk = new Transaksi (this.code , this.items) ;
-            // Stringbuilder untuk menangani output Transaksi
-            StringBuilder sbr = new StringBuilder() ;
-            // menambahkan hasil transaksi
-            sbr.append(tsk.Pembayaran()) ;
-            // memanggil dialog dengan StringBuilder
-            JOptionPane.showMessageDialog(this , sbr , "Transaksi" , JOptionPane.INFORMATION_MESSAGE) ;
-            // melakukan transaksi baru
-            transaksiBaru () ;
-        } catch (Exception e) {
+            Transaksi tsk = new Transaksi (this.code, this.items);
+            StringBuilder sbr = new StringBuilder();//menangani output Transaksi
+            sbr.append(tsk.Pembayaran());//menambahkan hasil transaksi
+            JOptionPane.showMessageDialog(this , sbr , "Transaksi", JOptionPane.INFORMATION_MESSAGE);// memanggil StringBuilder            
+            transaksiBaru();// melakukan transaksi baru
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_saveToggleButtonActionPerformed
@@ -312,16 +287,14 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_pilihanComboBoxActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-            this.jumlahTextField.setText(" ");
-            this.codeLabel.setText(" ");
-            this.newButton.setEnabled(true);
-            this.saveToggleButton.setEnabled(false);
-            this.cancelToggleButton.setEnabled(false);
-            this.addButton.setEnabled(false);
-            this.removeButton.setEnabled(false);
-            this.codeTextField.setEnabled(false);
-            this.tbModel.setRowCount(0);
-            this.items.clear();
+        this.jumlahTextField.setText("1");
+        this.newButton.setEnabled(false);
+        this.saveToggleButton.setEnabled(true);
+        this.cancelToggleButton.setEnabled(true);
+        this.addButton.setEnabled(true);
+        this.removeButton.setEnabled(true);
+        this.pilihanComboBox.setEnabled(true);
+        this.codeTextField.setText(this.setCode());
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void codeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeTextFieldActionPerformed
@@ -329,20 +302,16 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_codeTextFieldActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        if (tampil.getSelectedRow() <0) {
-            // jika tidak ada , maka akan muncul tulisan seperti ini
+        if (tampil.getSelectedRow() <0) {//jika tidak kolom yang dipilih akan muncul tulian dibawah
             String sbr = "Pilihlah item yang akan dihapus" ;
             JOptionPane.showMessageDialog(this , sbr , "Information" , JOptionPane.INFORMATION_MESSAGE) ;  
-        } else {
-            // jika ada baris yg dipilih , maka baris tersebut akan dihapus
+        } else {//jika ada yang dipilih akan terhapus
             int count = tampil.getSelectedRows().length ;
             for (int i = 0; i < count; i++) {
                 tbModel.removeRow(tampil.getSelectedRow()) ;
-            }
-            
+            }            
         }
         this.belanja() ;
-    
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -351,7 +320,7 @@ public class Main extends javax.swing.JFrame {
         if(isDuplicate(nama)) {
             updateJumlah(nama , jumlah);
         } else {
-            tbModel.addRow(addItem(nama , jumlah)) ;
+            tbModel.addRow(addItem(nama, jumlah));
         }
         this.belanja() ;
     }//GEN-LAST:event_addButtonActionPerformed

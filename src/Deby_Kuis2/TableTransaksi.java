@@ -22,18 +22,11 @@ public class TableTransaksi extends DefaultTableModel{
     }
     
     @Override
-    public void setRowCount(int i) {
-        super.setRowCount(0);
-    }
-    
-    @Override
-    public void addRow(Object[] os) {
-        super.addRow(os);
-    }
-    
-    @Override
-    public void removeRow(int i) {
-        super.removeRow(0);
+    public String toString(){
+        return "TableTransaksi{"+"KolomNama"+kolom+"}";
     }
 
+    public int getKeyListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
