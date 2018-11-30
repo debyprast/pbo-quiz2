@@ -10,23 +10,23 @@ import javax.swing.table.*;
  * @author sin
  */
 public class TableTransaksi extends DefaultTableModel{
-    private String[] kolom;
-    public TableTransaksi(){
-        this.kolom = new String[] {
+    private String[] kolom;//untuk menyimpan nama kolom
+    public TableTransaksi(){ 
+        this.kolom = new String[]{
             "Nama", "Harga", "Jumlah"
         };
     }
     
-    public String[] getKolomNama() {
+    public String[] getKolomNama(){//mengambil kolom nama
         return this.kolom;
     }
     
     @Override
-    public String toString(){
+    public String toString(){//convert
         return "TableTransaksi{"+"KolomNama"+kolom+"}";
     }
 
-    public int getKeyListeners() {
+    public int getKeyListeners(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
